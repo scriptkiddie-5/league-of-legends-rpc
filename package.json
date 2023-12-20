@@ -15,8 +15,5 @@
     "dotenv": "^16.3.1",
     "process-listener": "^1.0.4",
     "ps-list": "^8.1.1"
-  },
-  "devDependencies": {
-    "@types/discord-rpc": "^4.0.8"
   }
 }
