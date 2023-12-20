@@ -1,19 +1,19 @@
 import { EventEmitter } from "events";
-import utils from "./utils.mjs";
+import constants from "./constants.mjs";
 import game, { modes } from "./game.mjs";
 
 const eventHandler = new EventEmitter();
 eventHandler.on("started", async () => {
-  utils.client_start_timestamp = new Date();
-  utils.script_state = "working";
+  constants.client_start_timestamp = new Date();
+  constants.script_state = "working";
 
   console.log("League client has started, script working");
 
   const interval = setInterval(async () => {
     if (await game.fetch()) {
-      utils.ingame = true;
+      constants.ingame = true;
       if (game.data.gameData.gameMode === "TFT") {
-        await utils.rpc.setActivity({
+        await constants.rpc.setActivity({
           details: "Teamfight Tactics",
           state: "In Game",
           startTimestamp:
@@ -27,7 +27,7 @@ eventHandler.on("started", async () => {
           instance: false,
         });
       } else {
-        await utils.rpc.setActivity({
+        await constants.rpc.setActivity({
           details: modes.get(game.data.gameData.gameMode) || "Unknown Mode",
           state: "In Game",
           startTimestamp:
@@ -44,23 +44,23 @@ eventHandler.on("started", async () => {
         });
       }
     } else {
-      await utils.rpc.setActivity({
+      await constants.rpc.setActivity({
         details: "In Client",
-        startTimestamp: utils.client_start_timestamp,
+        startTimestamp: constants.client_start_timestamp,
         largeImageKey:
           "https://universe.leagueoflegends.com/icons/android-chrome-192x192.png",
         largeImageText: "I use linux btw",
         instance: false,
       });
     }
-    if (utils.script_state === "idle") clearInterval(interval);
+    if (constants.script_state === "idle") clearInterval(interval);
   }, 2000);
 });
 
 eventHandler.on("stopped", async () => {
-  utils.script_state = "idle";
-  utils.client_start_timestamp = null;
-  await utils.rpc.clearActivity();
+  constants.script_state = "idle";
+  constants.client_start_timestamp = null;
+  await constants.rpc.clearActivity();
 
   console.log("League client has stopped, script idle");
 });
