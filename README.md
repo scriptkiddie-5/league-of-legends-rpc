@@ -13,7 +13,7 @@ Install the required packages with the package manager of your choice (I use pnp
 ```bash
 pnpm install
 ```
-And if done correctly, run the script.
+If all is done correctly, run the script
 ```bash
 node index.mjs
 ```
